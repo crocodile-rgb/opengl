@@ -1,10 +1,10 @@
-
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
 using namespace std;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void processInput(GLFWwindow *window);
 
 int main() 
 {
@@ -38,6 +38,13 @@ int main()
 	//不断绘制图像并接受输入
 	while (!glfwWindowShouldClose(window)) 
 	{
+		//输入
+		processInput(window);
+		//渲染指令
+		glClearColor(0.2f, 0.3f, 0.3f, 0.1f);
+		glClear(GL_COLOR_BUFFER_BIT);//清除颜色缓冲，填充为glclearcolor设置的颜色
+
+		//交换缓冲，检查并调用事件
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -48,4 +55,10 @@ int main()
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
+}
+//自定义输入函数
+void processInput(GLFWwindow *window)
+{
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, true);
 }
