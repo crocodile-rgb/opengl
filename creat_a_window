@@ -1,0 +1,51 @@
+
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <iostream>
+using namespace std;
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
+int main() 
+{
+	//初始化GLFW
+	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	//创建窗口对象，返回指针
+	GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
+	if (window == NULL) 
+	{
+		std::cout << "初始化 GLFW 失败" << std::endl;
+		glfwTerminate();
+		return -1;
+	}
+	//设置窗口context为主context
+	glfwMakeContextCurrent(window);
+
+	//初始化GLAD,管理函数指针
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) 
+	{
+		std::cout << "初始化 GLAD 失败" << std::endl;
+		return -1;
+	}
+
+	//初始化在GLFW上的窗口
+	glViewport(0,0,800,600);
+	//窗口可拉动大小
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); 
+	
+	//不断绘制图像并接受输入
+	while (!glfwWindowShouldClose(window)) 
+	{
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+	}
+	//释放资源
+	glfwTerminate();
+	return 0;
+}
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+	glViewport(0, 0, width, height);
+}
